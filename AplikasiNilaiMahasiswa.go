@@ -327,4 +327,292 @@ func hapusMK() {
 	if idx == -1 {
 		fmt.Println("Mahasiswa tidak ditemukan")
 		return
+}
+fmt.Print("Masukkan Kode MK : ")
+	fmt.Scan(&kode)
+
+	for j = 0; j < krs[idx].Jml; j++ {
+
+		if krs[idx].MK[j].Kode == kode {
+
+			for k = j; k < krs[idx].Jml-1; k++ {
+				krs[idx].MK[k] = krs[idx].MK[k+1]
+			}
+
+			krs[idx].Jml--
+
+			fmt.Println("Mata kuliah berhasil dihapus")
+			return
+		}
 	}
+
+	fmt.Println("Mata kuliah tidak ditemukan")
+}
+
+func cariMahasiswaMK() {
+	var kode string
+	var i int
+	var j int
+
+	fmt.Print("Masukkan Kode MK : ")
+	fmt.Scan(&kode)
+
+	fmt.Println("================================")
+	fmt.Println("Daftar Mahasiswa")
+	fmt.Println("================================")
+
+	for i = 0; i < n; i++ {
+
+		for j = 0; j < krs[i].Jml; j++ {
+
+			if krs[i].MK[j].Kode == kode {
+
+				fmt.Println(
+					mhs[i].NIM,
+					"-",
+					mhs[i].Nama)
+
+				break
+			}
+		}
+	}
+}
+
+func cariMKMahasiswa() {
+	var nim string
+	var idx int
+	var j int
+
+	fmt.Print("Masukkan NIM : ")
+	fmt.Scan(&nim)
+
+	idx = seqSearch(nim)
+
+	if idx == -1 {
+		fmt.Println("Mahasiswa tidak ditemukan")
+		return
+	}
+
+	fmt.Println("================================")
+	fmt.Println("Daftar Mata Kuliah")
+	fmt.Println("================================")
+
+	for j = 0; j < krs[idx].Jml; j++ {
+
+		fmt.Println(
+			krs[idx].MK[j].Kode,
+			"-",
+			krs[idx].MK[j].Nama,
+			"-",
+			krs[idx].MK[j].SKS,
+			"SKS")
+	}
+}
+func selectionSortNilai(desc bool) {
+	var i, j int
+	var idx int
+
+	for i = 0; i < n-1; i++ {
+
+		idx = i
+
+		for j = i + 1; j < n; j++ {
+
+			if desc {
+
+				if rataNilai(krs[j]) >
+					rataNilai(krs[idx]) {
+
+					idx = j
+				}
+
+			} else {
+
+				if rataNilai(krs[j]) <
+					rataNilai(krs[idx]) {
+
+					idx = j
+				}
+			}
+		}
+
+		swap(i, idx)
+	}
+}
+
+func insertionSortSKS(desc bool) {
+	var i int
+	var j int
+
+	var tempM Mahasiswa
+	var tempK KRS
+
+	for i = 1; i < n; i++ {
+
+		tempM = mhs[i]
+		tempK = krs[i]
+
+		j = i
+
+		if desc {
+
+			for j > 0 &&
+				totalSKS(krs[j-1]) <
+					totalSKS(tempK) {
+
+				mhs[j] = mhs[j-1]
+				krs[j] = krs[j-1]
+
+				j--
+			}
+
+		} else {
+
+			for j > 0 &&
+				totalSKS(krs[j-1]) >
+					totalSKS(tempK) {
+
+				mhs[j] = mhs[j-1]
+				krs[j] = krs[j-1]
+
+				j--
+			}
+		}
+
+		mhs[j] = tempM
+		krs[j] = tempK
+	}
+}
+
+func tampilTranskrip() {
+	var nim string
+	var idx int
+	var i int
+
+	fmt.Print("Masukkan NIM : ")
+	fmt.Scan(&nim)
+
+	idx = seqSearch(nim)
+
+	if idx == -1 {
+		fmt.Println("Mahasiswa tidak ditemukan")
+		return
+	}
+
+	fmt.Println("========================================")
+	fmt.Println("TRANSKRIP NILAI")
+	fmt.Println("========================================")
+	fmt.Println("NIM  :", mhs[idx].NIM)
+	fmt.Println("Nama :", mhs[idx].Nama)
+	fmt.Println("========================================")
+	fmt.Println("Kode\tMK\tSKS\tNilai\tGrade")
+
+	for i = 0; i < krs[idx].Jml; i++ {
+
+		fmt.Println(
+			krs[idx].MK[i].Kode,
+			"\t",
+			krs[idx].MK[i].Nama,
+			"\t",
+			krs[idx].MK[i].SKS,
+			"\t",
+			krs[idx].MK[i].Total,
+			"\t",
+			krs[idx].MK[i].Grade)
+	}
+
+	fmt.Println("========================================")
+	fmt.Println("Total SKS :", totalSKS(krs[idx]))
+	fmt.Println("Rata-rata :", rataNilai(krs[idx]))
+	fmt.Println("========================================")
+}
+func main() {
+	var pilih int
+
+	pilih = -1
+
+	for pilih != 0 {
+
+		fmt.Println()
+		fmt.Println("===================================")
+		fmt.Println("    APLIKASI NILAI MAHASISWA")
+		fmt.Println("===================================")
+		fmt.Println("1. Tambah Mahasiswa")
+		fmt.Println("2. Edit Mahasiswa")
+		fmt.Println("3. Hapus Mahasiswa")
+		fmt.Println("4. Tambah Mata Kuliah")
+		fmt.Println("5. Edit Mata Kuliah")
+		fmt.Println("6. Hapus Mata Kuliah")
+		fmt.Println("7. Cari Mahasiswa per MK")
+		fmt.Println("8. Cari MK per Mahasiswa")
+		fmt.Println("9. Urut Berdasarkan Nilai")
+		fmt.Println("10. Urut Berdasarkan SKS")
+		fmt.Println("11. Tampilkan Semua Mahasiswa")
+		fmt.Println("12. Tampilkan Transkrip")
+		fmt.Println("0. Keluar")
+
+		fmt.Print("Pilih : ")
+		fmt.Scan(&pilih)
+
+		if pilih == 1 {
+
+			tambahMahasiswa()
+
+		} else if pilih == 2 {
+
+			editMahasiswa()
+
+		} else if pilih == 3 {
+
+			hapusMahasiswa()
+
+		} else if pilih == 4 {
+
+			tambahMK()
+
+		} else if pilih == 5 {
+
+			editMK()
+
+		} else if pilih == 6 {
+
+			hapusMK()
+
+		} else if pilih == 7 {
+
+			cariMahasiswaMK()
+
+		} else if pilih == 8 {
+
+			cariMKMahasiswa()
+
+		} else if pilih == 9 {
+
+			selectionSortNilai(true)
+			tampilSemuaMahasiswa()
+
+		} else if pilih == 10 {
+
+			insertionSortSKS(true)
+			tampilSemuaMahasiswa()
+
+		} else if pilih == 11 {
+
+			tampilSemuaMahasiswa()
+
+		} else if pilih == 12 {
+
+			tampilTranskrip()
+
+		} else if pilih == 0 {
+
+			fmt.Println("Program selesai")
+
+		} else {
+
+			fmt.Println("Pilihan tidak tersedia")
+
+		}
+	}
+}
+	
