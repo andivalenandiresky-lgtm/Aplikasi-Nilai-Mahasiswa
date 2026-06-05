@@ -80,9 +80,7 @@ func BinarySearch(A arrMhs, n int, x string) int {
 func totalNilai(quiz, uts, uas float64) float64 {
 	var total float64
 
-	total = (0.2 * quiz) +
-		(0.3 * uts) +
-		(0.5 * uas)
+	total = (0.2 * quiz) + (0.3 * uts) + (0.5 * uas)
 
 	return total
 }
@@ -219,11 +217,7 @@ func tampilSemuaMahasiswa(A arrMhs, B arrKRS, n int) {
 		fmt.Println("============================================================================")
 
 		for i = 0; i < n; i++ {
-			fmt.Printf("%-15s %-25s %-15d %-15.2f\n",
-				A[i].NIM,
-				A[i].Nama,
-				totalSKS(B[i]),
-				rataNilai(B[i]))
+			fmt.Printf("%-15s %-25s %-15d %-15.2f\n", A[i].NIM, A[i].Nama, totalSKS(B[i]), rataNilai(B[i]))
 		}
 
 		fmt.Println("============================================================================")
@@ -272,14 +266,9 @@ func tambahMK(A arrMhs, B *arrKRS, n int) {
 			fmt.Print("Nilai UAS : ")
 			fmt.Scan(&B[idx].MK[j].UAS)
 
-			B[idx].MK[j].Total =
-				totalNilai(
-					B[idx].MK[j].Quiz,
-					B[idx].MK[j].UTS,
-					B[idx].MK[j].UAS)
+			B[idx].MK[j].Total = totalNilai(B[idx].MK[j].Quiz, B[idx].MK[j].UTS, B[idx].MK[j].UAS)
 
-			B[idx].MK[j].Grade =
-				grade(B[idx].MK[j].Total)
+			B[idx].MK[j].Grade = grade(B[idx].MK[j].Total)
 
 			B[idx].Jml++
 
@@ -325,14 +314,9 @@ func editMK(A arrMhs, B *arrKRS, n int) {
 				fmt.Print("Nilai UAS Baru : ")
 				fmt.Scan(&B[idx].MK[j].UAS)
 
-				B[idx].MK[j].Total =
-					totalNilai(
-						B[idx].MK[j].Quiz,
-						B[idx].MK[j].UTS,
-						B[idx].MK[j].UAS)
+				B[idx].MK[j].Total = totalNilai(B[idx].MK[j].Quiz, B[idx].MK[j].UTS, B[idx].MK[j].UAS)
 
-				B[idx].MK[j].Grade =
-					grade(B[idx].MK[j].Total)
+				B[idx].MK[j].Grade = grade(B[idx].MK[j].Total)
 
 				fmt.Println("Data mata kuliah berhasil diubah（๑ > ᴗ <๑）")
 
